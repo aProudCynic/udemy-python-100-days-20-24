@@ -16,6 +16,12 @@ class Snake:
         for segment in self.segments:
             segment.forward(20)
 
+    def turn_left(self):
+        for segment_number in range(len(self.segments)):
+            self.segments[segment_number].left(90)
+            for segment in self.segments:
+                segment.forward(20)
+
 screen = Screen()
 screen.bgcolor('black')
 screen.setup(600, 600)
