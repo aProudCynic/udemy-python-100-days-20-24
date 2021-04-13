@@ -14,6 +14,7 @@ class Snake:
 
 screen = Screen()
 screen.bgcolor('black')
+screen.setup(600, 600)
 
 snake = Snake(3)
 screen.exitonclick()
