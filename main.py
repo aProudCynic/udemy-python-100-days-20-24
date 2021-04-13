@@ -3,8 +3,9 @@ from turtle import Turtle, Screen
 class Snake:
 
     SNAKE_SEGMENT_SIZE = 20
+    SNAKE_DEFAULT_INITIAL_SEGMENTS = 3
 
-    def __init__(self, nr_of_segments):
+    def __init__(self, nr_of_segments = 3):
         self.segments = []
         for segment_number in range(nr_of_segments):
             segment = Turtle()
@@ -31,7 +32,7 @@ screen.setup(600, 600)
 
 screen.tracer(0)
 
-snake = Snake(3)
+snake = Snake()
 
 game_on = True
 while game_on:
