@@ -20,10 +20,14 @@ screen = Screen()
 screen.bgcolor('black')
 screen.setup(600, 600)
 
+screen.tracer(0)
+
 snake = Snake(3)
+
 game_on = True
 while game_on:
     snake.move_forward()
+    screen.update()
 
 screen.exitonclick()
 
