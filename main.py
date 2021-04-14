@@ -16,11 +16,16 @@ class Snake:
             if(segment_number != 0):
                 segment.back(Snake.SNAKE_SEGMENT_SIZE * segment_number)
             self.segments.append(segment)
-        self.turning = False
 
-    def move_forward(self):
-        for segment in self.segments:
-            segment.forward(Snake.SNAKE_SEGMENT_SIZE)
+    def move(self):
+        for segment_number in range(len(self.segments) - 1, -1, -1):
+            segment = self.segments[segment_number]
+            if segment_number > 0:
+                previous_segment = self.segments[segment_number - 1]
+                segment.goto(previous_segment.position())
+                segment.setheading(previous_segment.heading())
+            else:
+                segment.forward(Snake.SNAKE_SEGMENT_SIZE)
 
     def up(self):
         self.rotate(90)
@@ -35,17 +40,10 @@ class Snake:
         self.rotate(360)
 
     def rotate(self, new_heading):
-        opposite_of_current_heading = 180 - int(self.segments[0].heading())
-        if not self.turning and opposite_of_current_heading != new_heading:
-            self.turning = True
-            for segment_number in range(len(self.segments)):
-                self.segments[segment_number].setheading(new_heading)
-                for segment in self.segments:
-                    segment.forward(Snake.SNAKE_SEGMENT_SIZE)
-                screen.update()
-                time.sleep(1)
-            self.turning = False
-
+        head = self.segments[0]
+        opposite_of_current_heading = 180 - int(head.heading())
+        if opposite_of_current_heading != new_heading:
+            head.setheading(new_heading)
 
 screen = Screen()
 screen.bgcolor('black')
@@ -63,9 +61,9 @@ screen.onkey(snake.right, 'Right')
 
 game_on = True
 while game_on:
-    snake.move_forward()
+    snake.move()
     screen.update()
-    time.sleep(1)
+    time.sleep(0.2)
 
 screen.exitonclick()
 
