@@ -49,6 +49,12 @@ class Snake:
         if opposite_of_current_heading != new_heading:
             head.setheading(new_heading)
 
+    def grow(self):
+        last_segment = self.segments[len(self.segments) - 1]
+        new_segment = last_segment.clone()
+        new_segment.back(COORDINATE_SIZE)
+        self.segments.append(new_segment)
+
 class Food(Turtle):
 
     def __init__(self) -> None:
@@ -84,6 +90,7 @@ def detect_collisions(snake, foods):
         print(food.position())
         if snake.segments[0].distance(food) <= COORDINATE_SIZE:
             food.hideturtle()
+            snake.grow()
 
 screen = Screen()
 screen.bgcolor('black')
