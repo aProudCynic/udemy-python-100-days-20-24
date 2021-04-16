@@ -4,6 +4,8 @@ from random import randint
 
 COORDINATE_SIZE = 20
 
+ARENA_WIDTH_AND_HEIGHT = 600
+
 class Snake:
 
     SNAKE_DEFAULT_INITIAL_SEGMENTS = 3
@@ -83,7 +85,7 @@ def detect_collisions(snake, foods):
 
 screen = Screen()
 screen.bgcolor('black')
-screen.setup(600, 600)
+screen.setup(ARENA_WIDTH_AND_HEIGHT, ARENA_WIDTH_AND_HEIGHT)
 
 screen.tracer(0)
 
