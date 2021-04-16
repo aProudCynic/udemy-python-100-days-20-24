@@ -18,7 +18,7 @@ class Snake:
             segment.color('white')
             segment.penup()
             if(segment_number != 0):
-                segment.back(Snake.COORDINATE_SIZE * segment_number)
+                segment.back(COORDINATE_SIZE * segment_number)
             self.segments.append(segment)
 
     def move(self):
@@ -29,7 +29,7 @@ class Snake:
                 segment.goto(previous_segment.position())
                 segment.setheading(previous_segment.heading())
             else:
-                segment.forward(Snake.COORDINATE_SIZE)
+                segment.forward(COORDINATE_SIZE)
 
     def up(self):
         self.rotate(90)
@@ -62,7 +62,9 @@ class Food(Turtle):
         print(self.position())
         
     def _generate_random_coordinate_in_game_arena(self):
-        return randint(1, 59) * 10
+        max_coordinate = ARENA_WIDTH_AND_HEIGHT / 2 / COORDINATE_SIZE - 1
+        min_coordinate = max_coordinate * -1
+        return randint(min_coordinate, max_coordinate) * COORDINATE_SIZE
 
 def add_event_listeners(screen, snake):
     screen.listen()
