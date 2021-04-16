@@ -1,12 +1,13 @@
 from turtle import Turtle, Screen
 import time
+from random import randint
 
 class Snake:
 
     SNAKE_SEGMENT_SIZE = 20
     SNAKE_DEFAULT_INITIAL_SEGMENTS = 3
 
-    def __init__(self, nr_of_segments = 3):
+    def __init__(self, nr_of_segments = SNAKE_DEFAULT_INITIAL_SEGMENTS):
         self.segments = []
         for segment_number in range(nr_of_segments):
             segment = Turtle()
@@ -45,6 +46,37 @@ class Snake:
         if opposite_of_current_heading != new_heading:
             head.setheading(new_heading)
 
+class Food(Turtle):
+
+    def __init__(self) -> None:
+        super().__init__(shape='circle')
+        self.color('blue')
+        self.penup()
+        self.setposition(
+            float(self._generate_random_coordinate_in_game_arena()),
+            float(self._generate_random_coordinate_in_game_arena())
+        )
+        print(self.position())
+        
+    def _generate_random_coordinate_in_game_arena(self):
+        return randint(1, 59) * 10
+
+def add_event_listeners(screen, snake):
+    screen.listen()
+    screen.onkey(snake.up, 'Up')
+    screen.onkey(snake.down, 'Down')
+    screen.onkey(snake.left, 'Left')
+    screen.onkey(snake.right, 'Right')
+
+def generate_food(number_of_food):
+    foods = []
+    for _ in range(number_of_food):
+        foods.append(Food())
+    return foods
+
+def detect_collisions(snake, foods):
+    pass
+
 screen = Screen()
 screen.bgcolor('black')
 screen.setup(600, 600)
@@ -53,16 +85,15 @@ screen.tracer(0)
 
 snake = Snake()
 
-screen.listen()
-screen.onkey(snake.up, 'Up')
-screen.onkey(snake.down, 'Down')
-screen.onkey(snake.left, 'Left')
-screen.onkey(snake.right, 'Right')
+foods = generate_food(5)
+
+add_event_listeners(screen, snake)
 
 game_on = True
 while game_on:
     snake.move()
     screen.update()
+    detect_collisions(snake, foods)
     time.sleep(0.2)
 
 screen.exitonclick()
