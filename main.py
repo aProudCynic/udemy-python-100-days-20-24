@@ -1,3 +1,4 @@
+from random import randint
 from snake import Snake
 from food import Food
 from constants import ARENA_WIDTH_AND_HEIGHT, COORDINATE_SIZE
@@ -11,10 +12,20 @@ def add_event_listeners(screen, snake):
     screen.onkey(snake.left, 'Left')
     screen.onkey(snake.right, 'Right')
 
+def generate_random_coordinate_in_game_arena() :
+        max_coordinate = ARENA_WIDTH_AND_HEIGHT / 2 / COORDINATE_SIZE - 1
+        min_coordinate = max_coordinate * -1
+        return randint(min_coordinate, max_coordinate) * COORDINATE_SIZE
+
 def generate_food(number_of_food):
     foods = []
+    
     for _ in range(number_of_food):
-        foods.append(Food())
+        coordinates_of_food = (
+            float(generate_random_coordinate_in_game_arena()),
+            float(generate_random_coordinate_in_game_arena()),
+        )
+        foods.append(Food(coordinates_of_food))
     return foods
 
 def detect_collisions(snake, foods):
