@@ -88,7 +88,7 @@ def generate_food(number_of_food):
 def detect_collisions(snake, foods):
     for food in foods:
         print(food.position())
-        if snake.segments[0].distance(food) <= COORDINATE_SIZE:
+        if snake.segments[0].distance(food) <= COORDINATE_SIZE / 2:
             food.hideturtle()
             snake.grow()
 
