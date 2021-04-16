@@ -2,9 +2,10 @@ from turtle import Turtle, Screen
 import time
 from random import randint
 
+COORDINATE_SIZE = 20
+
 class Snake:
 
-    SNAKE_SEGMENT_SIZE = 20
     SNAKE_DEFAULT_INITIAL_SEGMENTS = 3
 
     def __init__(self, nr_of_segments = SNAKE_DEFAULT_INITIAL_SEGMENTS):
@@ -15,7 +16,7 @@ class Snake:
             segment.color('white')
             segment.penup()
             if(segment_number != 0):
-                segment.back(Snake.SNAKE_SEGMENT_SIZE * segment_number)
+                segment.back(Snake.COORDINATE_SIZE * segment_number)
             self.segments.append(segment)
 
     def move(self):
@@ -26,7 +27,7 @@ class Snake:
                 segment.goto(previous_segment.position())
                 segment.setheading(previous_segment.heading())
             else:
-                segment.forward(Snake.SNAKE_SEGMENT_SIZE)
+                segment.forward(Snake.COORDINATE_SIZE)
 
     def up(self):
         self.rotate(90)
@@ -75,7 +76,10 @@ def generate_food(number_of_food):
     return foods
 
 def detect_collisions(snake, foods):
-    pass
+    for food in foods:
+        print(food.position())
+        if snake.segments[0].distance(food) <= COORDINATE_SIZE:
+            food.hideturtle()
 
 screen = Screen()
 screen.bgcolor('black')
