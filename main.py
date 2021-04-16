@@ -30,10 +30,12 @@ def generate_food(number_of_food):
 
 def detect_collisions(snake, foods):
     for food in foods:
-        print(food.position())
         if snake.segments[0].distance(food) <= COORDINATE_SIZE / 2:
             food.hideturtle()
             snake.grow()
+
+def get_score_based_on_snake_size(snake):
+    return len(snake.segments) - Snake.SNAKE_DEFAULT_INITIAL_SEGMENTS
 
 screen = Screen()
 screen.bgcolor('black')
@@ -48,10 +50,12 @@ foods = generate_food(5)
 add_event_listeners(screen, snake)
 
 game_on = True
+score = 0
 while game_on:
     snake.move()
     screen.update()
     detect_collisions(snake, foods)
+    score = get_score_based_on_snake_size(snake)
     time.sleep(0.2)
 
 screen.exitonclick()
