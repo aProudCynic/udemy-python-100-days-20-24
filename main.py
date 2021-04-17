@@ -1,4 +1,5 @@
 from random import randint
+from scoreboard import Scoreboard
 from snake import Snake
 from food import Food
 from constants import ARENA_WIDTH_AND_HEIGHT, COORDINATE_SIZE
@@ -34,7 +35,7 @@ def detect_collisions(snake, foods):
             food.hideturtle()
             snake.grow()
 
-def get_score_based_on_snake_size(snake):
+def get_score(snake):
     return len(snake.segments) - Snake.SNAKE_DEFAULT_INITIAL_SEGMENTS
 
 screen = Screen()
@@ -51,11 +52,13 @@ add_event_listeners(screen, snake)
 
 game_on = True
 score = 0
+scoreboard = Scoreboard()
 while game_on:
     snake.move()
     screen.update()
     detect_collisions(snake, foods)
-    score = get_score_based_on_snake_size(snake)
+    current_score = get_score(snake)
+    scoreboard.set_score(current_score)
     time.sleep(0.2)
 
 screen.exitonclick()
