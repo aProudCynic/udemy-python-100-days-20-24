@@ -83,5 +83,7 @@ while game_on:
     scoreboard.set_score(current_score)
     time.sleep(0.2)
 
+scoreboard.display_game_finished_message()
+
 screen.exitonclick()
 
