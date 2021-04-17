@@ -29,14 +29,36 @@ def generate_food(number_of_food):
         foods.append(Food(coordinates_of_food))
     return foods
 
-def detect_collisions(snake, foods):
+def detect_game_ending_collision(snake, foods):
+    if _detect_collision_with_walls(snake):
+        return True
+    return _detect_collision_of_snake_with_itself(snake)
+
+def calculate_score(snake):
+    return len(snake.segments) - Snake.SNAKE_DEFAULT_INITIAL_SEGMENTS
+
+def consume_food_at_head(snake, foods):
     for food in foods:
         if snake.segments[0].distance(food) <= COORDINATE_SIZE / 2:
             food.hideturtle()
             snake.grow()
 
-def get_score(snake):
-    return len(snake.segments) - Snake.SNAKE_DEFAULT_INITIAL_SEGMENTS
+def _detect_collision_with_walls(snake):
+    head_position = snake.segments[0].position()
+    upper_boundary = ARENA_WIDTH_AND_HEIGHT / 2 - COORDINATE_SIZE
+    lower_boundary = upper_boundary * -1
+    for coordinate in head_position:
+        if coordinate > upper_boundary or coordinate < lower_boundary:
+            return True
+    return False
+
+def _detect_collision_of_snake_with_itself(snake):
+    snake_segments = snake.segments
+    snake_head_coordinates = snake_segments[0].position()
+    for segment_index in range(1, len(snake_segments) -1):
+        if snake_segments[segment_index].position() == snake_head_coordinates:
+            return True
+    return False
 
 screen = Screen()
 screen.bgcolor('black')
@@ -51,13 +73,13 @@ foods = generate_food(5)
 add_event_listeners(screen, snake)
 
 game_on = True
-score = 0
 scoreboard = Scoreboard()
 while game_on:
     snake.move()
     screen.update()
-    detect_collisions(snake, foods)
-    current_score = get_score(snake)
+    game_on = not detect_game_ending_collision(snake, foods)
+    consume_food_at_head(snake, foods)
+    current_score = calculate_score(snake)
     scoreboard.set_score(current_score)
     time.sleep(0.2)
 
