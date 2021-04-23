@@ -8,4 +8,3 @@ class Food(Turtle):
         self.color('blue')
         self.penup()
         self.setposition(coordinates)
-        print(self.position())        
