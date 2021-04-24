@@ -3,12 +3,14 @@ from turtle import Turtle
 
 class Scoreboard(Turtle):
 
-    def __init__(self):
+    def __init__(self, start_position, text, alignment):
         super().__init__()
         self.hideturtle()
         self.penup()
         self.color('white')
-        self.setposition(0, 270)
+        self.setposition(start_position)
+        self.alignment = alignment
+        self.text = text
         self.displayed_score = 0
         self._write_score()
 
@@ -18,8 +20,8 @@ class Scoreboard(Turtle):
 
     def _write_score(self):
         self.clear()
-        self.write(f'Score: {self.displayed_score}', align='center', font=('Arial', 24))
+        self.write(f'{self.text}: {self.displayed_score}', align=self.alignment, font=('Arial', 24))
 
     def display_game_finished_message(self):
         self.clear()
-        self.write(f'Game over! Score: {self.displayed_score}', align='center', font=('Arial', 24))
+        self.write(f'Game over! {self.text}: {self.displayed_score}', align=self.alignment, font=('Arial', 24))

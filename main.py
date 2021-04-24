@@ -70,7 +70,8 @@ food = generate_food()
 add_event_listeners(screen, snake)
 
 game_on = True
-scoreboard = Scoreboard()
+current_score_board = Scoreboard((20, 270), 'Score', 'left')
+high_score_board = Scoreboard((-20, 270), 'High score', 'right')
 while game_on:
     snake.move()
     screen.update()
@@ -79,10 +80,10 @@ while game_on:
         consume_food_at_head(snake, food)
         food = generate_food()
     current_score = calculate_score(snake)
-    scoreboard.set_score(current_score)
+    current_score_board.set_score(current_score)
     time.sleep(0.2)
 
-scoreboard.display_game_finished_message()
+current_score_board.display_game_finished_message()
 
 screen.exitonclick()
 
