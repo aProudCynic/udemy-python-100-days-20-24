@@ -1,5 +1,6 @@
 from random import randint
 from scoreboard import Scoreboard
+from high_score_scoreboard import HighScoreScoreboard
 from snake import Snake
 from food import Food
 from constants import ARENA_WIDTH_AND_HEIGHT, COORDINATE_SIZE
@@ -87,6 +88,6 @@ screen.setup(ARENA_WIDTH_AND_HEIGHT, ARENA_WIDTH_AND_HEIGHT)
 screen.tracer(0)
 
 current_score_board = Scoreboard((20, 270), 'Score', 'left')
-high_score_board = Scoreboard((-20, 270), 'High score', 'right')
+high_score_board = HighScoreScoreboard((-20, 270), 'right')
 while True:
     start_new_game(screen)
