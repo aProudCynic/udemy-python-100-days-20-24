@@ -49,3 +49,7 @@ class Snake:
         new_segment = last_segment.clone()
         new_segment.back(COORDINATE_SIZE)
         self.segments.append(new_segment)
+
+    def delete(self):
+        for segment in self.segments:
+            segment.hideturtle()

@@ -55,7 +55,30 @@ def _detect_collision_of_snake_with_itself(snake):
     for segment_index in range(1, len(snake_segments) -1):
         if snake_segments[segment_index].position() == snake_head_coordinates:
             return True
-    return False
+    return False 
+
+def cleanup(snake, food):
+    snake.delete()
+    food.hideturtle()
+
+def start_new_game(screen):
+    snake = Snake()
+    food = generate_food()
+    game_on = True
+    while game_on:
+        snake.move()
+        screen.update()
+        add_event_listeners(screen, snake)
+        game_on = not detect_game_ending_collision(snake)
+        if food_at_head(snake, food):
+            consume_food_at_head(snake, food)
+            food = generate_food()
+        current_score = calculate_score(snake)
+        current_score_board.set_score(current_score)
+        time.sleep(0.2)
+    if high_score_board.score < current_score:
+        high_score_board.set_score(current_score)
+    cleanup(snake, food)
 
 screen = Screen()
 screen.bgcolor('black')
@@ -63,27 +86,7 @@ screen.setup(ARENA_WIDTH_AND_HEIGHT, ARENA_WIDTH_AND_HEIGHT)
 
 screen.tracer(0)
 
-snake = Snake()
-
-food = generate_food()
-
-add_event_listeners(screen, snake)
-
-game_on = True
 current_score_board = Scoreboard((20, 270), 'Score', 'left')
 high_score_board = Scoreboard((-20, 270), 'High score', 'right')
-while game_on:
-    snake.move()
-    screen.update()
-    game_on = not detect_game_ending_collision(snake)
-    if food_at_head(snake, food):
-        consume_food_at_head(snake, food)
-        food = generate_food()
-    current_score = calculate_score(snake)
-    current_score_board.set_score(current_score)
-    time.sleep(0.2)
-
-current_score_board.display_game_finished_message()
-
-screen.exitonclick()
-
+while True:
+    start_new_game(screen)
